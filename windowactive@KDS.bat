@@ -57,9 +57,8 @@ if %ERRORLEVEL% GEQ 0 (
     cscript slmgr.vbs /cpky >nul
     ECHO Gở key thành công. !!!
     timeout /t 3 /nobreak
-EXIT /B 0
-)
-  else (
+    EXIT /B 0
+) else (
     ECHO chọn tùm bậy.
     GOTO exithandle
     )
