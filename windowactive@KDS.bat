@@ -3,25 +3,32 @@ chcp 65001
 cls
 SETLOCAL
 set server= %1
-if "%1"=="" ( set server=3rss.vicp.net ) else ECHO using custom server %server%
+if "%1"=="" ( set server=kms.ddns.net ) else ECHO using custom server %server%
 
 CALL :check_Permissions || GOTO exithandle
 CALL :checkserver %server% || GOTO exithandle
 cls
 timeout /t 3 /nobreak > NUL
-ECHO Script was written by KudouSterain 
+
+ECHO Script được viết bởi KudouSterain
 ECHO fb.com/Kudou.D.Sterain
-ECHO you can share this script to anywhere if u keep credit.
-ECHO if this script wont work anymore plz text me .
-ECHO Script được viết bởi  KudouSterain
-ECHO fb.com/Kudou.D.Sterain
+ECHO ---
 ECHO Bạn có thể share đến bất cứ đâu nếu ghi credit.
 ECHO Script không xài được thì báo mình.
-timeout /t 3 /nobreak > NUL
+ECHO ---
+ECHO Script Version: 1.0 [forked by darealpaoo]
+ECHO Phiên bản này mình đã đổi sang server "kms.ddns.net", hoạt động tốt.
+ECHO Lỗi được biết:
+ECHO 1) Kích hoạt Windows 10 Home không được. Tức là ấn số "0".
+ECHO 2) Gỡ Key không được. Tức là ấn số "7" sẽ bị lỗi.
+ECHO Vui lòng chờ 10 giây...
+timeout /t 10 /nobreak > NUL
 cls
+
 ECHO Tất cả version bên dưới đều là bản dùng thử 180 ngày.
 ECHO bạn có thể active lại sau khi hết hạn.
-ECHO chơi hệ cá nhân thôi :))
+ECHO Không nên xài ở công ty lớn.
+
 @REM window 10 home
 SET list[0]=TX9XD-98N7V-6WMQ6-BX7FG-H8Q99
 @REM window 10 pro
@@ -45,27 +52,27 @@ ECHO 3.Windows 10 Enterprise
 ECHO 4.Windows 10 Enterprise LTSB 2015
 ECHO 5.Windows 10 Enterprise LTSB 2016
 ECHO 6.Windows 10 Enterprise LTSC 2019
-ECHO 7.Gở key
+ECHO 7.Gỡ key
+
 CHOICE /N /C:1234567 /M "Chọn version để lụm active (0-6):"%1
 if %ERRORLEVEL% GEQ 0 ( 
     if %ERRORLEVEL% LEQ 6 ( call set currentkey=%%list[%ERRORLEVEL%]%% ) else (
-    ECHO chọn tùm bậy.
+    ECHO Chọn tùm bậy.
     GOTO exithandle
     )
 ) else if %ERRORLEVEL% == 7 (
     cscript slmgr.vbs /ckms >nul
     cscript slmgr.vbs /cpky >nul
-    ECHO Gở key thành công. !!!
+    ECHO Gỡ key thành công. !!!
     timeout /t 3 /nobreak
     EXIT /B 0
 ) else (
-    ECHO chọn tùm bậy.
+    ECHO Chọn tùm bậy.
     GOTO exithandle
     )
 
 ECHO %currentkey%
-ECHO ek %server% active cho tau ...
-ECHO đang active , chắc là hơi lâu ...
+ECHO Server %server% đang kích hoạt cho bạn, chờ tý...
 cscript slmgr.vbs /upk >nul
 cscript slmgr.vbs /ckms >nul
 cscript slmgr.vbs /cpky >nul
@@ -73,27 +80,27 @@ cscript slmgr.vbs /ipk %currentkey% >nul
 cscript slmgr.vbs /skms %server% >nul
 cscript slmgr.vbs /ato >nul
 slmgr /xpr
-ECHO active xong roi, khoi dong lai thoi !!!
-timeout /t 3 /nobreak
+ECHO Active xong rồi, khởi động máy lại nhé!!!
+timeout /t 10 /nobreak
 EXIT /B 0
 @REM function list
 :check_Permissions
-echo Để mình check quyền admin cái nào ...
+echo Đang check quyền Admin ...
 timeout /t 1 /nobreak > NUL
 net session >nul 2>&1
 if errorlevel 0 (
-    echo Đã có quyền admin, active win thôi.
+    echo Đã có quyền Admin, tiến hành thôi.
     EXIT /B 0
 ) else (
-    echo Plz Cho hãy cho tớ quyền admin
+    echo Vui lòng chạy file dưới quyền Admin nhé!
     EXIT /B 1
 )
 :checkserver
-echo à chưa đợi check server cái
+echo Đang check Server...
 ping -n 2 %~1 | find "TTL=" >nul
 ECHO %~1
 if errorlevel 1 (
-    echo server hỏng rồi không active dc.
+    echo Server hỏng rồi không kích hoạt được!
     EXIT /B 1
 ) else (
     echo Sever đã ô kê.
